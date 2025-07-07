@@ -2,10 +2,10 @@ package handler
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/siriramhazam/budget-authen/internal/service"
+	"github.com/siriramhazam/budget-authen/internal/utils"
 )
 
 type AuthHandler struct {
@@ -24,24 +24,23 @@ func (h *AuthHandler) Login(w http.ResponseWriter, r *http.Request) {
 		Password string `json:"password"`
 	}
 	if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-		http.Error(w, "invalid request", http.StatusBadRequest)
+		utils.SendErrorResponse(w, http.StatusBadRequest, "Invalid Request", err.Error())
 		return
 	}
 
 	if body.Username == "" {
-		http.Error(w, "invalid credentials", http.StatusUnauthorized)
+		utils.SendErrorResponse(w, http.StatusUnauthorized, "Invalid credentials", "Missing field: Username")
 		return
 	}
 
 	if body.Password == "" {
-		http.Error(w, "invalid credentials", http.StatusUnauthorized)
+		utils.SendErrorResponse(w, http.StatusUnauthorized, "Invalid credentials", "Missing field: Password")
 		return
 	}
 
 	token, err := h.svc.GenerateToken(body.Username)
 	if err != nil {
-		fmt.Println("Error generating token:", err)
-		http.Error(w, "could not genarate token", http.StatusInternalServerError)
+		utils.SendErrorResponse(w, http.StatusBadRequest, "Could not genarate token", err.Error())
 		return
 	}
 
