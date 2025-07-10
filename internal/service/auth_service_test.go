@@ -20,6 +20,6 @@ func TestGenerateToken(t *testing.T) {
 	}
 
 	if !strings.Contains(token, ".") {
-		t.Fatalf("Expected token to be a valid JWT, got %v", token)
+		t.Errorf("Expected token to be a valid JWT, got %v", token)
 	}
 }
