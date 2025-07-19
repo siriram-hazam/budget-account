@@ -1,4 +1,4 @@
-.PHONY: build
+.PHONY: build run test migrate proto air docker-buid docker-run docker-dev
 
 build:
 	go build -o main ./cmd/auth
@@ -25,4 +25,4 @@ docker-run:
 	docker run --rm -p 8080:8080 budget-authen:latest
 
 docker-dev:
-    docker run --rm -p 8080:8080 -v $(PWD):/app --entrypoint air budget-authen:latest
+	docker run --rm -p 8080:8080 -v $(PWD):/app --entrypoint air budget-authen:latest
