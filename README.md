@@ -12,48 +12,76 @@ Budget Authen Service is a microservice for generating JWT tokens, designed to p
 
 1.  **Clone the Repository**
 
-```sh
-git clone https://github.com/siriram-hazam/budget-authen.git
-cd budget-authen
-```
+    ```sh
+    git clone https://github.com/siriram-hazam/budget-authen.git
+    cd budget-authen
+    ```
 
 2.  **Download Go Modules**
 
-```sh
-go mod download
-```
+    ```sh
+    go mod download
+    ```
 
 3.  **(Optional) Run Database Migrations**
-    If your service uses a database, run migrations:
 
-```sh
-migrate -path db/migrations -database "postgres://postgres:123456@localhost:5432/auth?sslmode=disable" up
-```
+    ```sh
+    make migrate
+    ```
 
 4.  **Run the gRPC Service**
 
-```sh
-go run ./cmd/auth
-```
+    ```sh
+    make run
+    ```
 
-Or use [air](https://github.com/cosmtrek/air) for hot reload:
+5.  **(Optional) Use [air](https://github.com/cosmtrek/air) for hot reload**
 
-```sh
-air
-```
+    ```sh
+    make air
+    ```
+
+6.  **Docker Usage**
+
+    - **Build image:**
+      ```sh
+      make docker-build
+      ```
+    - **Run container:**
+      ```sh
+      make docker-run
+      ```
+    - **For hot reload in Docker (dev):**
+      ```sh
+      make docker-dev
+      ```
+      > This will mount your local code into the container and use air for hot reload.  
+      > Edit your code locally and air will reload the service automatically.
+
+## Makefile Commands
+
+- `make build` – Build the binary
+- `make run` – Run the service
+- `make test` – Run tests
+- `make migrate` – Run database migrations
+- `make proto` – Generate gRPC code from proto
+- `make air` – Run with hot reload (requires air)
+- `make docker-build` – Build Docker image
+- `make docker-run` – Run Docker container
+- `make docker-dev` – Run Docker container with hot reload (air)
 
 ## gRPC API
 
 - **Login**
-- Request: `username`, `password`
-- Response: `token`, `error`
+  - Request: `username`, `password`
+  - Response: `token`, `error`
 
 See the proto definition in [`proto/auth.proto`](proto/auth.proto).
 
 ## Example Usage
 
 ```sh
-grpcurl  -plaintext  -d  '{"username":"testuser","password":"testpass"}'  localhost:8080  auth.AuthService/Login
+grpcurl -plaintext -d '{"username":"testuser","password":"testpass"}' localhost:8080 auth.AuthService/Login
 ```
 
 ## Project Structure
@@ -71,5 +99,3 @@ grpcurl  -plaintext  -d  '{"username":"testuser","password":"testpass"}'  localh
 - You can extend or customize features as needed.
 
 ---
-
-**Maintainer:** [siriramhazam](https://github.com/siriramhazam)
