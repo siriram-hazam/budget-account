@@ -10,7 +10,7 @@ test:
 	go test ./...
 
 migrate:
-	migrate -path db/migrations -database "postgres://postgres:123456@localhost:5432/auth?sslmode=disable" up
+	migrate -path db/migrations -database "postgres://postgres:123456@localhost:5432/authen?sslmode=disable" up
 
 proto:
 	protoc --go_out=grpc-auth/proto --go-grpc_out=grpc-auth/proto proto/auth.proto
