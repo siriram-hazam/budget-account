@@ -1,4 +1,4 @@
-module github.com/siriramhazam/budget-authen
+module github.com/siriramhazam/budget-account
 
 go 1.24.4
 
